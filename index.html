@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sound Setup Checklist</title>
+
+<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 14px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.section {
+  background: #ffffff;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  padding: 10px;
+}
+
+.section h2 {
+  font-size: 15px;
+  margin: 6px 0 8px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 4px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 8px;
+  font-size: 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.item.checked {
+  color: #888;
+  text-decoration: line-through;
+}
+
+.check {
+  font-size: 18px;
+  color: #2e7d32;
+  display: none;
+}
+
+.item.checked .check {
+  display: inline;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  background: #c62828;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎚️ Sound Setup Checklist</h1>
+
+<div class="section">
+<h2>Pre-Power Check</h2>
+<div class="item">SZ-12 faders DOWN <span class="check">✔</span></div>
+<div class="item">AUX masters DOWN <span class="check">✔</span></div>
+<div class="item">LQ-04 outputs MIN <span class="check">✔</span></div>
+<div class="item">Wireless IEM packs OFF <span class="check">✔</span></div>
+<div class="item">Speakers OFF <span class="check">✔</span></div>
+<div class="item">Instrument → DI → SZ-12 <span class="check">✔</span></div>
+</div>
+
+<div class="section">
+<h2>Power-Up Order</h2>
+<div class="item">Q-24 interfaces <span class="check">✔</span></div>
+<div class="item">SZ-12 mixer <span class="check">✔</span></div>
+<div class="item">LQ-04 <span class="check">✔</span></div>
+<div class="item">Wireless IEM transmitters <span class="check">✔</span></div>
+<div class="item">PA / Speakers <span class="check">✔</span></div>
+</div>
+
+<div class="section">
+<h2>IEM / AUX Setup</h2>
+<div class="item">AUX 3–6 PRE-FADER <span class="check">✔</span></div>
+<div class="item">AUX masters −5 dB <span class="check">✔</span></div>
+<div class="item">Vocal: own vocal loudest <span class="check">✔</span></div>
+<div class="item">Acoustic loud <span class="check">✔</span></div>
+<div class="item">Keys loud <span class="check">✔</span></div>
+</div>
+
+<div class="section">
+<h2>LQ-04</h2>
+<div class="item">Inputs MONO <span class="check">✔</span></div>
+<div class="item">Red knobs 10–11 o’clock <span class="check">✔</span></div>
+<div class="item">Correct IN → OUT routing <span class="check">✔</span></div>
+<div class="item">Output knobs ~9 o’clock <span class="check">✔</span></div>
+</div>
+
+<div class="section">
+<h2>Wireless IEM</h2>
+<div class="item">Sensitivity LOW <span class="check">✔</span></div>
+<div class="item">No distortion or hiss <span class="check">✔</span></div>
+<div class="item">Musician confirmed mix <span class="check">✔</span></div>
+</div>
+
+<div class="section">
+<h2>FOH & Lock</h2>
+<div class="item">Walk room <span class="check">✔</span></div>
+<div class="item">No feedback <span class="check">✔</span></div>
+<div class="item">Scene saved <span class="check">✔</span></div>
+</div>
+
+<button onclick="resetChecklist()">Reset Checklist</button>
+
+<script>
+const items = document.querySelectorAll(".item");
+
+items.forEach((item, index) => {
+  if (localStorage.getItem("item" + index) === "true") {
+    item.classList.add("checked");
+  }
+
+  item.addEventListener("click", () => {
+    item.classList.toggle("checked");
+    localStorage.setItem("item" + index, item.classList.contains("checked"));
+  });
+});
+
+function resetChecklist() {
+  if (confirm("Reset all items?")) {
+    items.forEach((item, index) => {
+      item.classList.remove("checked");
+      localStorage.removeItem("item" + index);
+    });
+  }
+}
+</script>
+
+</body>
+</html>
