@@ -7,108 +7,133 @@
 
 <style>
 :root {
-  --bg: #0f1115;
-  --card: #1a1d24;
-  --text: #ffffff;
-  --muted: #a0a0a0;
-  --eq: #4da3ff;
-  --comp: #4dff88;
-  --note: #ffd24d;
+  --bg:#0f1115;
+  --card:#1a1d24;
+  --text:#fff;
+  --muted:#aaa;
+  --eq:#4da3ff;
+  --comp:#4dff88;
+  --note:#ffd24d;
+  --accent:#4da3ff;
 }
 
 body.light {
-  --bg: #f4f4f4;
-  --card: #ffffff;
-  --text: #111;
-  --muted: #555;
+  --bg:#f4f4f4;
+  --card:#ffffff;
+  --text:#111;
+  --muted:#555;
 }
 
 body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  margin:0;
+  font-family:system-ui, sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
 
+/* TOP BAR */
 header {
-  padding: 12px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 12px;
 }
 
+header h1 {
+  margin:0;
+  font-size:20px;
+}
+
+.top-actions button {
+  padding:6px 10px;
+  margin-left:6px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* TABS */
 .tabs {
-  display: flex;
-  overflow-x: auto;
-  border-bottom: 1px solid var(--muted);
+  display:flex;
+  overflow-x:auto;
+  border-bottom:1px solid var(--muted);
 }
 
 .tab {
-  padding: 12px 16px;
-  cursor: pointer;
-  white-space: nowrap;
+  padding:12px 16px;
+  cursor:pointer;
+  white-space:nowrap;
 }
 
 .tab.active {
-  border-bottom: 3px solid var(--eq);
+  border-bottom:3px solid var(--accent);
 }
 
+/* SECTIONS */
 .section {
-  display: none;
-  padding: 12px;
+  display:none;
+  padding:12px;
 }
 
 .section.active {
-  display: block;
+  display:block;
 }
 
-.instrument-card {
-  background: var(--card);
-  border-radius: 10px;
-  margin-bottom: 12px;
-  overflow: hidden;
+/* CARDS */
+.card {
+  background:var(--card);
+  border-radius:10px;
+  margin-bottom:12px;
+  overflow:hidden;
 }
 
-.instrument-card h3 {
-  margin: 0;
-  padding: 14px;
-  font-size: 18px;
-  cursor: pointer;
+.card h3 {
+  margin:0;
+  padding:14px;
+  cursor:pointer;
 }
 
 .card-content {
-  display: none;
-  padding: 12px;
+  display:none;
+  padding:12px;
 }
 
-.eq h4 { color: var(--eq); }
-.comp h4 { color: var(--comp); }
-.note h4 { color: var(--note); }
+/* CHECKLIST */
+label {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:6px 0;
+  cursor:pointer;
+}
+
+input[type="checkbox"] {
+  transform:scale(1.2);
+}
+
+/* MIX COLORS */
+.eq h4 { color:var(--eq); }
+.comp h4 { color:var(--comp); }
+.note h4 { color:var(--note); }
 
 ul {
-  padding-left: 18px;
-  margin: 6px 0;
-}
-
-footer {
-  padding: 10px;
-  text-align: center;
-}
-
-button {
-  padding: 8px 12px;
-  margin: 4px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
+  padding-left:18px;
 }
 </style>
 </head>
 
 <body>
 
-<header>🎛 StageReady</header>
+<!-- 🔝 TOP BAR -->
+<header>
+  <h1>🎛 StageReady</h1>
+  <div class="top-actions">
+    <button id="themeBtn" onclick="toggleTheme()">🌙</button>
+    <button onclick="resetChecks()">♻️ Reset</button>
+  </div>
+</header>
 
+<!-- 🔖 TABS -->
 <div class="tabs">
   <div class="tab active" onclick="openTab(0)">Checklist</div>
   <div class="tab" onclick="openTab(1)">IEM / Aux</div>
@@ -116,165 +141,166 @@ button {
   <div class="tab" onclick="openTab(3)">🎚 Instrument Mixes</div>
 </div>
 
-<!-- EXISTING SECTIONS (kept simple placeholder) -->
-<div class="section active">Your existing checklist content here</div>
-<div class="section">Your existing IEM content here</div>
-<div class="section">Your existing recording content here</div>
+<!-- ================= CHECKLIST ================= -->
+<div class="section active">
 
-<!-- INSTRUMENT MIXES -->
-<div class="section">
+<div class="card">
+<h3 onclick="toggle(this)">🔌 Stage Setup</h3>
+<div class="card-content">
+<label><input type="checkbox"> Power on mixer & stage box</label>
+<label><input type="checkbox"> Check power & extensions</label>
+<label><input type="checkbox"> FOH + IEM outputs connected</label>
+<label><input type="checkbox"> Control app connected</label>
+</div>
+</div>
 
-  <!-- DRUMS -->
-  <div class="instrument-card">
-    <h3 onclick="toggle(this)">🥁 Kick Drum</h3>
-    <div class="card-content">
-      <div class="eq">
-        <h4>EQ</h4>
-        <ul>
-          <li>HPF: 30–40 Hz</li>
-          <li>+4 dB @ 60–80 Hz (thump)</li>
-          <li>−4 dB @ 250–400 Hz (mud)</li>
-          <li>+3 dB @ 3–5 kHz (attack)</li>
-        </ul>
-      </div>
-      <div class="comp">
-        <h4>Compressor</h4>
-        <ul>
-          <li>Ratio: 4:1</li>
-          <li>Attack: 20–30 ms</li>
-          <li>Release: 60–120 ms</li>
-          <li>GR: 4–6 dB</li>
-        </ul>
-      </div>
-      <div class="note">
-        <h4>Notes</h4>
-        <ul>
-          <li>FOH: emphasize punch</li>
-          <li>IEM: reduce sub if muddy</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- BASS -->
-  <div class="instrument-card">
-    <h3 onclick="toggle(this)">🎸 Bass</h3>
-    <div class="card-content">
-      <div class="eq">
-        <h4>EQ</h4>
-        <ul>
-          <li>HPF: 40–50 Hz</li>
-          <li>+3 dB @ 80–120 Hz</li>
-          <li>−4 dB @ 250–350 Hz</li>
-          <li>+2 dB @ 700 Hz–1 kHz</li>
-        </ul>
-      </div>
-      <div class="comp">
-        <h4>Compressor</h4>
-        <ul>
-          <li>Ratio: 4–6:1</li>
-          <li>Attack: 20–40 ms</li>
-          <li>Release: 100–200 ms</li>
-          <li>GR: 5–8 dB</li>
-        </ul>
-      </div>
-      <div class="note">
-        <h4>Notes</h4>
-        <ul>
-          <li>Consistency over loudness</li>
-          <li>Critical for IEM clarity</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- ELECTRIC GUITAR -->
-  <div class="instrument-card">
-    <h3 onclick="toggle(this)">🎸 Electric Guitar</h3>
-    <div class="card-content">
-      <div class="eq">
-        <h4>EQ</h4>
-        <ul>
-          <li>HPF: 80–120 Hz</li>
-          <li>−3 dB @ 200–300 Hz</li>
-          <li>+2 dB @ 2–4 kHz</li>
-        </ul>
-      </div>
-      <div class="comp">
-        <h4>Compressor</h4>
-        <ul>
-          <li>Ratio: 2–3:1</li>
-          <li>Attack: 30 ms</li>
-          <li>Release: 120 ms</li>
-          <li>GR: 2–4 dB</li>
-        </ul>
-      </div>
-      <div class="note">
-        <h4>Notes</h4>
-        <ul>
-          <li>Let amp do the tone</li>
-          <li>EQ = cleanup only</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- VOCALS -->
-  <div class="instrument-card">
-    <h3 onclick="toggle(this)">🎤 Vocals</h3>
-    <div class="card-content">
-      <div class="eq">
-        <h4>EQ</h4>
-        <ul>
-          <li>HPF: 100–120 Hz</li>
-          <li>−4 dB @ 250–350 Hz</li>
-          <li>+3 dB @ 4–6 kHz</li>
-          <li>+2 dB @ 10–12 kHz</li>
-        </ul>
-      </div>
-      <div class="comp">
-        <h4>Compressor</h4>
-        <ul>
-          <li>Ratio: 3:1</li>
-          <li>Attack: 5–10 ms</li>
-          <li>Release: 60–100 ms</li>
-          <li>GR: 4–6 dB</li>
-        </ul>
-      </div>
-      <div class="note">
-        <h4>Notes</h4>
-        <ul>
-          <li>Clarity > volume</li>
-          <li>Always check IEM fatigue</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+<div class="card">
+<h3 onclick="toggle(this)">🎤 Inputs</h3>
+<div class="card-content">
+<label><input type="checkbox"> Drums</label>
+<label><input type="checkbox"> Bass</label>
+<label><input type="checkbox"> Electric Guitars</label>
+<label><input type="checkbox"> Acoustic Guitar</label>
+<label><input type="checkbox"> Keys</label>
+<label><input type="checkbox"> Main Vocal</label>
+<label><input type="checkbox"> Backup Vocals</label>
+</div>
+</div>
 
 </div>
 
-<footer>
-  <button onclick="toggleTheme()">🌙 / ☀️</button>
-</footer>
+<!-- ================= IEM / AUX ================= -->
+<div class="section">
 
+<div class="card">
+<h3 onclick="toggle(this)">🥁 Drums IEM</h3>
+<div class="card-content">
+<label><input type="checkbox"> Click (-6 to -3 dB)</label>
+<label><input type="checkbox"> Lead Vox (-6 dB)</label>
+<label><input type="checkbox"> Bass (-8 dB)</label>
+<label><input type="checkbox"> Other instruments (-10 dB)</label>
+</div>
+</div>
+
+<div class="card">
+<h3 onclick="toggle(this)">🎸 Bass IEM</h3>
+<div class="card-content">
+<label><input type="checkbox"> Self (-3 dB)</label>
+<label><input type="checkbox"> Kick (-6 dB)</label>
+<label><input type="checkbox"> Lead Vox (-6 dB)</label>
+</div>
+</div>
+
+<div class="card">
+<h3 onclick="toggle(this)">🎤 Vocal IEM</h3>
+<div class="card-content">
+<label><input type="checkbox"> Self (-3 dB)</label>
+<label><input type="checkbox"> Keys (-8 dB)</label>
+<label><input type="checkbox"> Guitars (-10 dB)</label>
+</div>
+</div>
+
+</div>
+
+<!-- ================= RECORDING ================= -->
+<div class="section">
+
+<div class="card">
+<h3 onclick="toggle(this)">🎙 Multitrack Recording</h3>
+<div class="card-content">
+<label><input type="checkbox"> Drums</label>
+<label><input type="checkbox"> Bass</label>
+<label><input type="checkbox"> Guitars</label>
+<label><input type="checkbox"> Keys</label>
+<label><input type="checkbox"> Main Vocal</label>
+<label><input type="checkbox"> Backup Vocal</label>
+<label><input type="checkbox"> Test record & playback</label>
+</div>
+</div>
+
+</div>
+
+<!-- ================= INSTRUMENT MIXES ================= -->
+<div class="section">
+
+<div class="card">
+<h3 onclick="toggle(this)">🎸 Bass</h3>
+<div class="card-content">
+<div class="eq">
+<h4>EQ</h4>
+<ul>
+<li>HPF: 40–50 Hz</li>
+<li>+3 dB @ 80–120 Hz</li>
+<li>−4 dB @ 250–350 Hz</li>
+<li>+2 dB @ 700 Hz–1 kHz</li>
+</ul>
+</div>
+<div class="comp">
+<h4>Compressor</h4>
+<ul>
+<li>Ratio: 4–6:1</li>
+<li>Attack: 20–40 ms</li>
+<li>Release: 100–200 ms</li>
+<li>GR: 5–8 dB</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 onclick="toggle(this)">🎤 Vocals</h3>
+<div class="card-content">
+<div class="eq">
+<h4>EQ</h4>
+<ul>
+<li>HPF: 100–120 Hz</li>
+<li>−4 dB @ 250–350 Hz</li>
+<li>+3 dB @ 4–6 kHz</li>
+<li>+2 dB @ 10–12 kHz</li>
+</ul>
+</div>
+<div class="comp">
+<h4>Compressor</h4>
+<ul>
+<li>Ratio: 3:1</li>
+<li>Attack: 5–10 ms</li>
+<li>Release: 60–100 ms</li>
+<li>GR: 4–6 dB</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- ================= SCRIPT ================= -->
 <script>
-function openTab(index) {
-  document.querySelectorAll('.tab').forEach((t,i)=>{
-    t.classList.toggle('active', i===index);
-  });
-  document.querySelectorAll('.section').forEach((s,i)=>{
-    s.classList.toggle('active', i===index);
-  });
+function openTab(i){
+  document.querySelectorAll('.tab').forEach((t,x)=>t.classList.toggle('active',x===i));
+  document.querySelectorAll('.section').forEach((s,x)=>s.classList.toggle('active',x===i));
 }
 
-function toggle(el) {
-  const content = el.nextElementSibling;
-  content.style.display = content.style.display === "block" ? "none" : "block";
+function toggle(el){
+  const c = el.nextElementSibling;
+  c.style.display = c.style.display === "block" ? "none" : "block";
 }
 
-function toggleTheme() {
+function toggleTheme(){
   document.body.classList.toggle('light');
+  updateThemeIcon();
 }
+
+function updateThemeIcon(){
+  const btn = document.getElementById('themeBtn');
+  btn.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+}
+
+function resetChecks(){
+  document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+}
+
+// Set correct icon on load
+updateThemeIcon();
 </script>
 
 </body>
