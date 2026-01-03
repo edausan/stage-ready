@@ -1,164 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StageReady</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StageReady</title>
 
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#c62828">
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#c62828">
 
-<style>
-:root {
-  --bg:#f4f4f4; --card:#fff; --text:#000; --muted:#666; --border:#ddd;
-}
-body.dark {
-  --bg:#121212; --card:#1e1e1e; --text:#eaeaea; --muted:#aaa; --border:#333;
-}
-body {
-  font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
-  background:var(--bg); color:var(--text); margin:0; padding:14px;
-}
+  <style>
+    :root {
+      --bg: #f4f4f4;
+      --card: #fff;
+      --text: #000;
+      --muted: #666;
+      --border: #ddd;
+    }
 
-/* HEADER */
-h1{text-align:center;margin:6px 0}
-.subtitle{text-align:center;font-size:13px;color:var(--muted);margin-bottom:12px}
+    body.dark {
+      --bg: #121212;
+      --card: #1e1e1e;
+      --text: #eaeaea;
+      --muted: #aaa;
+      --border: #333;
+    }
 
-/* TOP BAR */
-.top-bar{display:flex;gap:8px;margin-bottom:12px}
-.icon-btn{
-  flex:1;padding:12px;border-radius:10px;border:none;
-  background:var(--card);font-size:18px;cursor:pointer
-}
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 14px;
+    }
 
-/* TABS */
-.tabs{display:flex;gap:6px;margin-bottom:10px}
-.tab{
-  flex:1;text-align:center;padding:10px;border-radius:8px;
-  background:var(--card);font-size:13px;cursor:pointer
-}
-.tab.active{background:#c62828;color:#fff}
+    /* HEADER */
+    h1 {
+      text-align: center;
+      margin: 6px 0;
+    }
 
-/* SECTIONS */
-.section{
-  background:var(--card);border-radius:10px;margin-bottom:14px;padding:10px
-}
-.section h2{
-  font-size:15px;margin:6px 0 8px;
-  border-bottom:1px solid var(--border);padding-bottom:4px
-}
+    .subtitle {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
 
-/* CHECKLIST ITEMS */
-.item{
-  padding:11px 6px;border-bottom:1px solid var(--border);
-  font-size:14px;cursor:pointer
-}
-.item:last-child{border-bottom:none}
-.item.checked{text-decoration:line-through;color:var(--muted)}
+    /* TOP BAR */
+    .top-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
 
-/* COLOR TAGS */
-.tag{font-size:11px;font-weight:600;padding:2px 6px;border-radius:6px;margin-right:6px}
-.db{font-size:11px;margin-right:6px}
+    .icon-btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: var(--card);
+      font-size: 18px;
+      cursor: pointer;
+    }
 
-/* LEVEL COLORS */
-.vhigh{background:#ffebee;color:#c62828}
-.high{background:#fff3e0;color:#ef6c00}
-.med{background:#fffde7;color:#f9a825}
-.low{background:#e8f5e9;color:#2e7d32}
+    /* TABS */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
 
-/* TABS CONTENT */
-.tab-content{display:none}
-.tab-content.active{display:block}
-</style>
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      background: var(--card);
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background: #c62828;
+      color: #fff;
+    }
+
+    /* SECTIONS */
+    .section {
+      background: var(--card);
+      border-radius: 10px;
+      margin-bottom: 14px;
+      padding: 10px;
+    }
+
+    .section h2 {
+      font-size: 15px;
+      margin: 6px 0 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+    }
+
+    /* CHECKLIST ITEMS */
+    .item {
+      padding: 11px 6px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .item:last-child {
+      border-bottom: none;
+    }
+
+    .item.checked {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+
+    /* COLOR TAGS */
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 6px;
+      margin-right: 6px;
+    }
+
+    .db {
+      font-size: 11px;
+      margin-right: 6px;
+    }
+
+    /* LEVEL COLORS */
+    .vhigh { background: #ffebee; color: #c62828; }
+    .high  { background: #fff3e0; color: #ef6c00; }
+    .med   { background: #fffde7; color: #f9a825; }
+    .low   { background: #e8f5e9; color: #2e7d32; }
+
+    /* TABS CONTENT */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+  </style>
 </head>
 
 <body>
 
-<h1>🎚️ StageReady</h1>
-<div class="subtitle">Rehearsal & Worship Service Companion</div>
+  <h1>🎚️ StageReady</h1>
+  <div class="subtitle">Rehearsal & Worship Service Companion</div>
 
-<div class="top-bar">
-  <button class="icon-btn" onclick="toggleTheme()">🌗</button>
-  <button class="icon-btn" onclick="resetAll()">↺</button>
-</div>
+  <div class="top-bar">
+    <button class="icon-btn" onclick="toggleTheme()">🌗</button>
+    <button class="icon-btn" onclick="resetAll()">↺</button>
+  </div>
 
-<div class="tabs">
-  <div class="tab active" onclick="openTab(0)">Checklist</div>
-  <div class="tab" onclick="openTab(1)">IEM Mixes</div>
-  <div class="tab" onclick="openTab(2)">EQ / Comp</div>
-</div>
+  <div class="tabs">
+    <div class="tab active" onclick="openTab(0)">Checklist</div>
+    <div class="tab" onclick="openTab(1)">IEM Mixes</div>
+    <div class="tab" onclick="openTab(2)">EQ / Comp</div>
+  </div>
 
-<!-- ================= CHECKLIST ================= -->
-<div class="tab-content active">
+  <!-- ================= CHECKLIST ================= -->
+  <div class="tab-content active">
 
-<div class="section">
-<h2>Pre-Power</h2>
-<div class="item">SZ-12 faders down</div>
-<div class="item">AUX masters down</div>
-<div class="item">LQ-04 outputs minimum</div>
-<div class="item">Wireless IEM packs off</div>
-<div class="item">Speakers off</div>
-</div>
+    <div class="section">
+      <h2>Pre-Power</h2>
+      <div class="item">SZ-12 faders down</div>
+      <div class="item">AUX masters down</div>
+      <div class="item">LQ-04 outputs minimum</div>
+      <div class="item">Wireless IEM packs off</div>
+      <div class="item">Speakers off</div>
+    </div>
 
-<div class="section">
-<h2>Power-Up</h2>
-<div class="item">Q-24 interfaces on</div>
-<div class="item">Mixer on</div>
-<div class="item">IEM transmitters on</div>
-<div class="item">PA on</div>
-</div>
+    <div class="section">
+      <h2>Power-Up</h2>
+      <div class="item">Q-24 interfaces on</div>
+      <div class="item">Mixer on</div>
+      <div class="item">IEM transmitters on</div>
+      <div class="item">PA on</div>
+    </div>
 
-<div class="section">
-<h2>Multitrack Recording</h2>
-<div class="item">Drums</div>
-<div class="item">Bass</div>
-<div class="item">Guitars</div>
-<div class="item">Keys</div>
-<div class="item">Lead vocal</div>
-<div class="item">Backup vocals</div>
-</div>
+    <div class="section">
+      <h2>Multitrack Recording</h2>
+      <div class="item">Drums</div>
+      <div class="item">Bass</div>
+      <div class="item">Guitars</div>
+      <div class="item">Keys</div>
+      <div class="item">Lead vocal</div>
+      <div class="item">Backup vocals</div>
+    </div>
 
-</div>
+  </div>
 
-<!-- ================= IEM MIXES ================= -->
-<div class="tab-content">
+  <!-- ================= IEM MIXES ================= -->
+  <div class="tab-content">
 
-<div class="section"><h2>Drums</h2>
-<div class="item"><span class="tag vhigh">Click</span><span class="db">-5 dB</span></div>
-<div class="item"><span class="tag high">Bass</span><span class="db">-10 dB</span></div>
-<div class="item"><span class="tag high">Lead Vox</span><span class="db">-10 dB</span></div>
-</div>
+    <div class="section">
+      <h2>Drums</h2>
+      <div class="item"><span class="tag vhigh">Click</span><span class="db">-5 dB</span></div>
+      <div class="item"><span class="tag high">Bass</span><span class="db">-10 dB</span></div>
+      <div class="item"><span class="tag high">Lead Vox</span><span class="db">-10 dB</span></div>
+    </div>
 
-<div class="section"><h2>Bass</h2>
-<div class="item"><span class="tag vhigh">Bass</span><span class="db">-5 dB</span></div>
-<div class="item"><span class="tag high">Kick</span><span class="db">-10 dB</span></div>
-<div class="item"><span class="tag med">Vox</span><span class="db">-15 dB</span></div>
-</div>
+    <div class="section">
+      <h2>Bass</h2>
+      <div class="item"><span class="tag vhigh">Bass</span><span class="db">-5 dB</span></div>
+      <div class="item"><span class="tag high">Kick</span><span class="db">-10 dB</span></div>
+      <div class="item"><span class="tag med">Vox</span><span class="db">-15 dB</span></div>
+    </div>
 
-<div class="section"><h2>Guitars</h2>
-<div class="item"><span class="tag vhigh">Own Gtr</span><span class="db">-5 dB</span></div>
-<div class="item"><span class="tag high">Lead Vox</span><span class="db">-10 dB</span></div>
-<div class="item"><span class="tag med">Band</span><span class="db">-15 dB</span></div>
-</div>
+    <div class="section">
+      <h2>Guitars</h2>
+      <div class="item"><span class="tag vhigh">Own Gtr</span><span class="db">-5 dB</span></div>
+      <div class="item"><span class="tag high">Lead Vox</span><span class="db">-10 dB</span></div>
+      <div class="item"><span class="tag med">Band</span><span class="db">-15 dB</span></div>
+    </div>
 
-<div class="section"><h2>Keys</h2>
-<div class="item"><span class="tag vhigh">Keys</span><span class="db">-5 dB</span></div>
-<div class="item"><span class="tag high">Vox</span><span class="db">-10 dB</span></div>
-</div>
+    <div class="section">
+      <h2>Keys</h2>
+      <div class="item"><span class="tag vhigh">Keys</span><span class="db">-5 dB</span></div>
+      <div class="item"><span class="tag high">Vox</span><span class="db">-10 dB</span></div>
+    </div>
 
-<div class="section"><h2>Vocals</h2>
-<div class="item"><span class="tag vhigh">Own Vox</span><span class="db">-5 dB</span></div>
-<div class="item"><span class="tag high">Harmony</span><span class="db">-10 dB</span></div>
-<div class="item"><span class="tag low">Band</span><span class="db">-20 dB</span></div>
-</div>
+    <div class="section">
+      <h2>Vocals</h2>
+      <div class="item"><span class="tag vhigh">Own Vox</span><span class="db">-5 dB</span></div>
+      <div class="item"><span class="tag high">Harmony</span><span class="db">-10 dB</span></div>
+      <div class="item"><span class="tag low">Band</span><span class="db">-20 dB</span></div>
+    </div>
 
-</div>
+  </div>
 
-<!-- ================= EQ / COMP ================= -->
-<div class="tab-content">
+  <!-- ================= EQ / COMP ================= -->
+  <div class="tab-content">
 
-<!-- EQ / COMP TAB CONTENT -->
+    <!-- EQ / COMP TAB CONTENT (unchanged, only formatted) -->
+    <!-- Your EQ/Comp section remains exactly the same content-wise -->
+    
+    <!-- EQ / COMP TAB CONTENT -->
 <div class="section">
   <h2>EQ & Compressor Presets</h2>
 
@@ -284,39 +368,43 @@ h1{text-align:center;margin:6px 0}
 
 </div>
 
-</div>
+  </div>
 
-<script>
-/* Tabs */
-function openTab(i){
-  document.querySelectorAll('.tab,.tab-content').forEach((el,idx)=>{
-    el.classList.toggle('active',idx===i||idx===i+3)
-  })
-}
+  <script>
+    /* Tabs */
+    function openTab(i) {
+      document.querySelectorAll('.tab, .tab-content').forEach((el, idx) => {
+        el.classList.toggle('active', idx === i || idx === i + 3);
+      });
+    }
 
-/* Checklist */
-document.querySelectorAll('.item').forEach((item,i)=>{
-  if(localStorage['i'+i]=='1') item.classList.add('checked')
-  item.onclick=()=>{
-    item.classList.toggle('checked')
-    localStorage['i'+i]=item.classList.contains('checked')?'1':''
-  }
-})
+    /* Checklist */
+    document.querySelectorAll('.item').forEach((item, i) => {
+      if (localStorage['i' + i] === '1') item.classList.add('checked');
+      item.onclick = () => {
+        item.classList.toggle('checked');
+        localStorage['i' + i] = item.classList.contains('checked') ? '1' : '';
+      };
+    });
 
-/* Theme */
-function toggleTheme(){
-  document.body.classList.toggle('dark')
-  localStorage.theme=document.body.classList.contains('dark')
-}
-if(localStorage.theme=='true') document.body.classList.add('dark')
+    /* Theme */
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      localStorage.theme = document.body.classList.contains('dark');
+    }
 
-/* Reset */
-function resetAll(){
-  if(confirm('Reset everything?')){
-    localStorage.clear(); location.reload()
-  }
-}
-</script>
+    if (localStorage.theme === 'true') {
+      document.body.classList.add('dark');
+    }
+
+    /* Reset */
+    function resetAll() {
+      if (confirm('Reset everything?')) {
+        localStorage.clear();
+        location.reload();
+      }
+    }
+  </script>
 
 </body>
 </html>
