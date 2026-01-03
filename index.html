@@ -6,44 +6,27 @@
 <title>StageReady</title>
 
 <style>
-:root {
-  --bg: #f4f4f4;
-  --card: #ffffff;
-  --text: #000000;
-  --muted: #666;
-  --border: #ddd;
-}
-
-body.dark {
-  --bg: #121212;
-  --card: #1e1e1e;
-  --text: #eaeaea;
-  --muted: #aaa;
-  --border: #333;
-}
-
 body {
   font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  background: #f4f4f4;
   margin: 0;
   padding: 14px;
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .subtitle {
   text-align: center;
   font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 10px;
+  color: #666;
+  margin-bottom: 14px;
 }
 
 .section {
-  background: var(--card);
+  background: #ffffff;
   border-radius: 10px;
   margin-bottom: 14px;
   padding: 10px;
@@ -52,48 +35,8 @@ h1 {
 .section h2 {
   font-size: 15px;
   margin: 6px 0 8px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #ddd;
   padding-bottom: 4px;
-}
-
-.top-bar {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-button {
-  flex: 1;
-  padding: 12px;
-  font-size: 14px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.primary {
-  background: #c62828;
-  color: white;
-}
-
-.secondary {
-  background: #555;
-  color: white;
-}
-
-.progress {
-  height: 8px;
-  background: #ccc;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-bottom: 14px;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: #2e7d32;
-  transition: width 0.2s;
 }
 
 .item {
@@ -102,7 +45,7 @@ button {
   align-items: center;
   padding: 11px 8px;
   font-size: 14px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #eee;
   cursor: pointer;
 }
 
@@ -111,7 +54,7 @@ button {
 }
 
 .item.checked {
-  color: var(--muted);
+  color: #888;
   text-decoration: line-through;
 }
 
@@ -125,6 +68,27 @@ button {
   display: inline;
 }
 
+/* IEM LEVEL COLORS */
+.hint {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 6px;
+  margin-right: 6px;
+}
+
+.db {
+  font-size: 11px;
+  color: #555;
+  margin-right: 6px;
+}
+
+.very-high { background: #ffebee; color: #c62828; }
+.high { background: #fff3e0; color: #ef6c00; }
+.med { background: #fffde7; color: #f9a825; }
+.low { background: #e8f5e9; color: #2e7d32; }
+
+/* COLLAPSIBLE */
 .collapsible-header {
   display: flex;
   justify-content: space-between;
@@ -140,19 +104,16 @@ button {
   display: none;
 }
 
-/* IEM LEVEL COLORS */
-.hint {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 2px 6px;
-  border-radius: 6px;
-  margin-right: 6px;
+button {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  background: #c62828;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-top: 10px;
 }
-
-.very-high { background: #ffebee; color: #c62828; }
-.high { background: #fff3e0; color: #ef6c00; }
-.med { background: #fffde7; color: #f9a825; }
-.low { background: #e8f5e9; color: #2e7d32; }
 </style>
 </head>
 
@@ -160,15 +121,6 @@ button {
 
 <h1>🎚️ StageReady</h1>
 <div class="subtitle">Rehearsal & Worship Service Checklist</div>
-
-<div class="top-bar">
-<button class="secondary" onclick="toggleDark()">🌙 Dark Mode</button>
-<button class="secondary" onclick="resetIEM()">🔄 Reset IEM</button>
-</div>
-
-<div class="progress">
-<div class="progress-bar" id="progressBar"></div>
-</div>
 
 <!-- PRE-POWER -->
 <div class="section">
@@ -181,8 +133,18 @@ button {
 <div class="item">Instrument → DI → SZ-12 <span class="check">✔</span></div>
 </div>
 
-<!-- COLLAPSIBLE IEM SECTION -->
-<div class="section" id="iemSection">
+<!-- POWER UP -->
+<div class="section">
+<h2>Power-Up Order</h2>
+<div class="item">Q-24 interfaces ON <span class="check">✔</span></div>
+<div class="item">SZ-12 mixer ON <span class="check">✔</span></div>
+<div class="item">LQ-04 ON <span class="check">✔</span></div>
+<div class="item">Wireless IEM transmitters ON <span class="check">✔</span></div>
+<div class="item">PA / Speakers ON <span class="check">✔</span></div>
+</div>
+
+<!-- IEM SECTION -->
+<div class="section">
 <div class="collapsible-header" onclick="toggleIEM()">
 <h2>AUX IEM MIXES</h2>
 <span class="arrow" id="iemArrow">▶</span>
@@ -191,82 +153,79 @@ button {
 <div class="collapsible-content" id="iemContent">
 
 <h2>AUX IEM – DRUMS</h2>
-<div class="item iem">Click <span class="hint very-high">VERY HIGH</span><span class="check">✔</span></div>
-<div class="item iem">Lead vocal <span class="hint high">HIGH</span><span class="check">✔</span></div>
-<div class="item iem">Bass <span class="hint high">HIGH</span><span class="check">✔</span></div>
-<div class="item iem">Other instruments <span class="hint low">LOW</span><span class="check">✔</span></div>
+<div class="item">Click <span class="hint very-high">VERY HIGH</span><span class="db">≈ –5 dB</span><span class="check">✔</span></div>
+<div class="item">Lead vocal <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
+<div class="item">Bass <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
+<div class="item">Other instruments <span class="hint low">LOW</span><span class="db">≈ –20 dB</span><span class="check">✔</span></div>
 
 <h2>AUX IEM – BASS</h2>
-<div class="item iem">Own bass <span class="hint very-high">VERY HIGH</span><span class="check">✔</span></div>
-<div class="item iem">Kick / drums <span class="hint high">HIGH</span><span class="check">✔</span></div>
-<div class="item iem">Lead vocal <span class="hint med">MED</span><span class="check">✔</span></div>
+<div class="item">Own bass <span class="hint very-high">VERY HIGH</span><span class="db">≈ –5 dB</span><span class="check">✔</span></div>
+<div class="item">Kick / drums <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
+<div class="item">Lead vocal <span class="hint med">MED</span><span class="db">≈ –15 dB</span><span class="check">✔</span></div>
 
 <h2>AUX IEM – E-GTR 1</h2>
-<div class="item iem">Own guitar <span class="hint very-high">VERY HIGH</span><span class="check">✔</span></div>
-<div class="item iem">Lead vocal <span class="hint high">HIGH</span><span class="check">✔</span></div>
-<div class="item iem">Rhythm section <span class="hint med">MED</span><span class="check">✔</span></div>
+<div class="item">Own guitar <span class="hint very-high">VERY HIGH</span><span class="db">≈ –5 dB</span><span class="check">✔</span></div>
+<div class="item">Lead vocal <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
+<div class="item">Rhythm section <span class="hint med">MED</span><span class="db">≈ –15 dB</span><span class="check">✔</span></div>
 
 <h2>AUX IEM – E-GTR 2</h2>
-<div class="item iem">Own guitar <span class="hint very-high">VERY HIGH</span><span class="check">✔</span></div>
-<div class="item iem">Lead vocal <span class="hint high">HIGH</span><span class="check">✔</span></div>
-<div class="item iem">Band balance <span class="hint med">MED</span><span class="check">✔</span></div>
+<div class="item">Own guitar <span class="hint very-high">VERY HIGH</span><span class="db">≈ –5 dB</span><span class="check">✔</span></div>
+<div class="item">Lead vocal <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
+<div class="item">Band balance <span class="hint med">MED</span><span class="db">≈ –15 dB</span><span class="check">✔</span></div>
 
 <h2>AUX IEM – ACOUSTIC</h2>
-<div class="item iem">Acoustic guitar <span class="hint very-high">VERY HIGH</span><span class="check">✔</span></div>
-<div class="item iem">Lead vocal <span class="hint high">HIGH</span><span class="check">✔</span></div>
-<div class="item iem">Band support <span class="hint low">LOW</span><span class="check">✔</span></div>
+<div class="item">Acoustic guitar <span class="hint very-high">VERY HIGH</span><span class="db">≈ –5 dB</span><span class="check">✔</span></div>
+<div class="item">Lead vocal <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
+<div class="item">Band support <span class="hint low">LOW</span><span class="db">≈ –20 dB</span><span class="check">✔</span></div>
 
 <h2>AUX IEM – KEYS</h2>
-<div class="item iem">Keys <span class="hint very-high">VERY HIGH</span><span class="check">✔</span></div>
-<div class="item iem">Lead vocal <span class="hint high">HIGH</span><span class="check">✔</span></div>
-<div class="item iem">Rhythm section <span class="hint med">MED</span><span class="check">✔</span></div>
+<div class="item">Keys <span class="hint very-high">VERY HIGH</span><span class="db">≈ –5 dB</span><span class="check">✔</span></div>
+<div class="item">Lead vocal <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
+<div class="item">Rhythm section <span class="hint med">MED</span><span class="db">≈ –15 dB</span><span class="check">✔</span></div>
 
 <h2>AUX IEM – VOCALS</h2>
-<div class="item iem">Own vocal <span class="hint very-high">VERY HIGH</span><span class="check">✔</span></div>
-<div class="item iem">Harmony vocals <span class="hint high">HIGH</span><span class="check">✔</span></div>
-<div class="item iem">Band underneath <span class="hint low">LOW</span><span class="check">✔</span></div>
+<div class="item">Own vocal <span class="hint very-high">VERY HIGH</span><span class="db">≈ –5 dB</span><span class="check">✔</span></div>
+<div class="item">Harmony vocals <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
+<div class="item">Band underneath <span class="hint low">LOW</span><span class="db">≈ –20 dB</span><span class="check">✔</span></div>
 
 </div>
 </div>
 
-<button class="primary" onclick="resetAll()">Reset All</button>
+<!-- MULTITRACK -->
+<div class="section">
+<h2>Multitrack Recording</h2>
+<div class="item">Drums recording <span class="check">✔</span></div>
+<div class="item">Bass recording <span class="check">✔</span></div>
+<div class="item">Guitars recording <span class="check">✔</span></div>
+<div class="item">Keys recording <span class="check">✔</span></div>
+<div class="item">Main vocal recording <span class="check">✔</span></div>
+<div class="item">Backup vocals recording <span class="check">✔</span></div>
+</div>
+
+<!-- FOH -->
+<div class="section">
+<h2>FOH & Lock</h2>
+<div class="item">Walk room check <span class="check">✔</span></div>
+<div class="item">No feedback <span class="check">✔</span></div>
+<div class="item">Scene / snapshot saved <span class="check">✔</span></div>
+</div>
+
+<button onclick="resetChecklist()">Reset Checklist</button>
 
 <script>
-/* AUTO RESET PER DAY */
-const today = new Date().toDateString();
-if (localStorage.getItem("lastUsed") !== today) {
-  localStorage.clear();
-  localStorage.setItem("lastUsed", today);
-}
-
-/* CHECKLIST */
 const items = document.querySelectorAll(".item");
-items.forEach((item, i) => {
-  if (localStorage.getItem("item" + i) === "true") item.classList.add("checked");
+
+items.forEach((item, index) => {
+  if (localStorage.getItem("item" + index) === "true") {
+    item.classList.add("checked");
+  }
   item.addEventListener("click", () => {
     item.classList.toggle("checked");
-    localStorage.setItem("item" + i, item.classList.contains("checked"));
-    updateProgress();
+    localStorage.setItem("item" + index, item.classList.contains("checked"));
   });
 });
 
-/* PROGRESS */
-function updateProgress() {
-  const checked = document.querySelectorAll(".item.checked").length;
-  const total = document.querySelectorAll(".item").length;
-  document.getElementById("progressBar").style.width =
-    Math.round((checked / total) * 100) + "%";
-}
-updateProgress();
-
-/* DARK MODE */
-function toggleDark() {
-  document.body.classList.toggle("dark");
-  localStorage.setItem("dark", document.body.classList.contains("dark"));
-}
-if (localStorage.getItem("dark") === "true") document.body.classList.add("dark");
-
-/* IEM COLLAPSE */
+/* IEM collapse */
 const iemContent = document.getElementById("iemContent");
 const iemArrow = document.getElementById("iemArrow");
 
@@ -276,23 +235,18 @@ function toggleIEM() {
   iemArrow.textContent = open ? "▶" : "▼";
   localStorage.setItem("iemOpen", !open);
 }
+
 if (localStorage.getItem("iemOpen") === "true") {
   iemContent.style.display = "block";
   iemArrow.textContent = "▼";
 }
 
-/* RESET */
-function resetIEM() {
-  document.querySelectorAll(".item.iem").forEach(item => {
-    item.classList.remove("checked");
-  });
-  updateProgress();
-}
-
-function resetAll() {
+function resetChecklist() {
   if (confirm("Reset entire checklist?")) {
-    localStorage.clear();
-    location.reload();
+    items.forEach((item, index) => {
+      item.classList.remove("checked");
+      localStorage.removeItem("item" + index);
+    });
   }
 }
 </script>
