@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StageReady</title>
 
 <!-- PWA -->
@@ -10,246 +10,215 @@
 <meta name="theme-color" content="#c62828">
 
 <style>
-:root{
-  --bg:#f4f4f4; --card:#fff; --text:#000;
-  --muted:#666; --border:#ddd; --accent:#c62828;
+:root {
+  --bg:#f4f4f4; --card:#fff; --text:#000; --muted:#666; --border:#ddd;
 }
-body.dark{
-  --bg:#121212; --card:#1e1e1e; --text:#eee;
-  --muted:#aaa; --border:#333;
+body.dark {
+  --bg:#121212; --card:#1e1e1e; --text:#eaeaea; --muted:#aaa; --border:#333;
 }
-body{
+body {
   font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
-  background:var(--bg); color:var(--text);
-  margin:0; padding:12px;
+  background:var(--bg); color:var(--text); margin:0; padding:14px;
 }
 
 /* HEADER */
-h1{text-align:center;margin:6px 0 2px}
-.subtitle{text-align:center;font-size:13px;color:var(--muted)}
+h1{text-align:center;margin:6px 0}
+.subtitle{text-align:center;font-size:13px;color:var(--muted);margin-bottom:12px}
 
 /* TOP BAR */
-.top-bar{
-  display:flex; gap:10px; margin:12px 0;
-}
+.top-bar{display:flex;gap:8px;margin-bottom:12px}
 .icon-btn{
-  flex:1; padding:12px; border:none;
-  border-radius:10px; background:var(--card);
-  font-size:18px; cursor:pointer;
+  flex:1;padding:12px;border-radius:10px;border:none;
+  background:var(--card);font-size:18px;cursor:pointer
 }
 
 /* TABS */
-.tabs{
-  display:flex; gap:6px; margin-bottom:12px;
-}
+.tabs{display:flex;gap:6px;margin-bottom:10px}
 .tab{
-  flex:1; text-align:center; padding:10px;
-  border-radius:10px; font-size:13px;
-  background:var(--card); cursor:pointer;
+  flex:1;text-align:center;padding:10px;border-radius:8px;
+  background:var(--card);font-size:13px;cursor:pointer
 }
-.tab.active{ background:var(--accent); color:#fff }
+.tab.active{background:#c62828;color:#fff}
 
 /* SECTIONS */
 .section{
-  background:var(--card);
-  border-radius:12px;
-  margin-bottom:14px;
-  padding:10px;
+  background:var(--card);border-radius:10px;margin-bottom:14px;padding:10px
 }
 .section h2{
-  font-size:15px;
-  border-bottom:1px solid var(--border);
-  padding-bottom:4px;
+  font-size:15px;margin:6px 0 8px;
+  border-bottom:1px solid var(--border);padding-bottom:4px
 }
 
-/* CHECK ITEMS */
+/* CHECKLIST ITEMS */
 .item{
-  padding:10px 6px;
-  border-bottom:1px solid var(--border);
-  cursor:pointer;
-  font-size:14px;
+  padding:11px 6px;border-bottom:1px solid var(--border);
+  font-size:14px;cursor:pointer
 }
 .item:last-child{border-bottom:none}
-.item.checked{
-  text-decoration:line-through;
-  color:var(--muted);
-}
+.item.checked{text-decoration:line-through;color:var(--muted)}
 
-/* COLOR CODES */
-.val{font-size:12px;font-weight:600;margin-left:6px}
-.low{color:#2e7d32}
-.med{color:#f9a825}
-.high{color:#ef6c00}
-.vhigh{color:#c62828}
+/* COLOR TAGS */
+.tag{font-size:11px;font-weight:600;padding:2px 6px;border-radius:6px;margin-right:6px}
+.db{font-size:11px;margin-right:6px}
 
-/* EQ / COMP */
-.preset{
-  font-size:13px; padding:6px 0;
-  border-bottom:1px dashed var(--border);
-}
-.preset:last-child{border:none}
+/* LEVEL COLORS */
+.vhigh{background:#ffebee;color:#c62828}
+.high{background:#fff3e0;color:#ef6c00}
+.med{background:#fffde7;color:#f9a825}
+.low{background:#e8f5e9;color:#2e7d32}
 
-/* HIDE */
-.hidden{display:none}
+/* TABS CONTENT */
+.tab-content{display:none}
+.tab-content.active{display:block}
 </style>
 </head>
 
 <body>
 
 <h1>🎚️ StageReady</h1>
-<div class="subtitle">Rehearsal & Worship Service Checklist</div>
+<div class="subtitle">Rehearsal & Worship Service Companion</div>
 
-<!-- TOP ICON BAR -->
 <div class="top-bar">
-<button class="icon-btn" onclick="toggleDark()">🌗</button>
-<button class="icon-btn" onclick="resetAll()">↺</button>
+  <button class="icon-btn" onclick="toggleTheme()">🌗</button>
+  <button class="icon-btn" onclick="resetAll()">↺</button>
 </div>
 
-<!-- TABS -->
 <div class="tabs">
-  <div class="tab active" onclick="showTab('checklist')">Checklist</div>
-  <div class="tab" onclick="showTab('mixes')">Instrument Mixes</div>
+  <div class="tab active" onclick="openTab(0)">Checklist</div>
+  <div class="tab" onclick="openTab(1)">IEM Mixes</div>
+  <div class="tab" onclick="openTab(2)">EQ / Comp</div>
 </div>
 
-<!-- CHECKLIST TAB -->
-<div id="checklist">
+<!-- ================= CHECKLIST ================= -->
+<div class="tab-content active">
 
-<!-- PRE POWER -->
 <div class="section">
-<h2>Pre-Power Check</h2>
-<div class="item">SZ-12 faders DOWN</div>
-<div class="item">AUX masters DOWN</div>
-<div class="item">LQ-04 outputs MIN</div>
-<div class="item">Wireless IEM packs OFF</div>
-<div class="item">Speakers OFF</div>
-<div class="item">Instrument → DI → SZ-12</div>
+<h2>Pre-Power</h2>
+<div class="item">SZ-12 faders down</div>
+<div class="item">AUX masters down</div>
+<div class="item">LQ-04 outputs minimum</div>
+<div class="item">Wireless IEM packs off</div>
+<div class="item">Speakers off</div>
 </div>
 
-<!-- POWER UP -->
 <div class="section">
-<h2>Power-Up Order</h2>
-<div class="item">Q-24 interfaces ON</div>
-<div class="item">SZ-12 mixer ON</div>
-<div class="item">LQ-04 ON</div>
-<div class="item">Wireless IEM TX ON</div>
-<div class="item">PA / Speakers ON</div>
+<h2>Power-Up</h2>
+<div class="item">Q-24 interfaces on</div>
+<div class="item">Mixer on</div>
+<div class="item">IEM transmitters on</div>
+<div class="item">PA on</div>
 </div>
 
-<!-- MULTITRACK -->
 <div class="section">
 <h2>Multitrack Recording</h2>
 <div class="item">Drums</div>
 <div class="item">Bass</div>
 <div class="item">Guitars</div>
 <div class="item">Keys</div>
-<div class="item">Main Vocal</div>
-<div class="item">Backup Vocals</div>
+<div class="item">Lead vocal</div>
+<div class="item">Backup vocals</div>
 </div>
 
 </div>
 
-<!-- MIXES TAB -->
-<div id="mixes" class="hidden">
+<!-- ================= IEM MIXES ================= -->
+<div class="tab-content">
 
-<!-- IEM PRESETS -->
-<div class="section">
-<h2>IEM Presets</h2>
-
-<div class="preset">Drums:
- Click <span class="val vhigh">-5dB</span>,
- Vox <span class="val high">-10dB</span>,
- Band <span class="val low">-20dB</span></div>
-
-<div class="preset">Bass:
- Own <span class="val vhigh">-5dB</span>,
- Kick <span class="val high">-10dB</span>,
- Vox <span class="val med">-15dB</span></div>
-
-<div class="preset">Lead Guitar:
- Own <span class="val vhigh">-5dB</span>,
- Vox <span class="val high">-10dB</span>,
- Band <span class="val med">-15dB</span></div>
-
-<div class="preset">Acoustic Guitar:
- Own <span class="val vhigh">-5dB</span>,
- Vox <span class="val high">-10dB</span>,
- Band <span class="val low">-20dB</span></div>
-
-<div class="preset">Keys:
- Keys <span class="val vhigh">-5dB</span>,
- Vox <span class="val high">-10dB</span>,
- Rhythm <span class="val med">-15dB</span></div>
+<div class="section"><h2>Drums</h2>
+<div class="item"><span class="tag vhigh">Click</span><span class="db">-5 dB</span></div>
+<div class="item"><span class="tag high">Bass</span><span class="db">-10 dB</span></div>
+<div class="item"><span class="tag high">Lead Vox</span><span class="db">-10 dB</span></div>
 </div>
 
-<!-- EQ / COMP -->
-<div class="section">
-<h2>EQ & Compressor Presets</h2>
-
-<div class="preset">
-<b>Acoustic Guitar EQ</b><br>
-HPF <span class="val low">80Hz</span>,
- Cut <span class="val med">-3dB @ 250Hz</span>,
- Boost <span class="val high">+4dB @ 5kHz</span>
+<div class="section"><h2>Bass</h2>
+<div class="item"><span class="tag vhigh">Bass</span><span class="db">-5 dB</span></div>
+<div class="item"><span class="tag high">Kick</span><span class="db">-10 dB</span></div>
+<div class="item"><span class="tag med">Vox</span><span class="db">-15 dB</span></div>
 </div>
 
-<div class="preset">
-<b>Acoustic Comp</b><br>
-Ratio <span class="val med">3:1</span>,
- GR <span class="val high">-4dB</span>,
- Attack <span class="val low">30ms</span>
+<div class="section"><h2>Guitars</h2>
+<div class="item"><span class="tag vhigh">Own Gtr</span><span class="db">-5 dB</span></div>
+<div class="item"><span class="tag high">Lead Vox</span><span class="db">-10 dB</span></div>
+<div class="item"><span class="tag med">Band</span><span class="db">-15 dB</span></div>
 </div>
 
-<div class="preset">
-<b>Lead Guitar EQ</b><br>
-HPF <span class="val low">100Hz</span>,
- Boost <span class="val high">+3dB @ 2.5kHz</span>,
- Air <span class="val med">+2dB @ 8kHz</span>
+<div class="section"><h2>Keys</h2>
+<div class="item"><span class="tag vhigh">Keys</span><span class="db">-5 dB</span></div>
+<div class="item"><span class="tag high">Vox</span><span class="db">-10 dB</span></div>
 </div>
 
-<div class="preset">
-<b>Lead Guitar Comp</b><br>
-Ratio <span class="val med">4:1</span>,
- GR <span class="val high">-5dB</span>,
- Fast Attack
+<div class="section"><h2>Vocals</h2>
+<div class="item"><span class="tag vhigh">Own Vox</span><span class="db">-5 dB</span></div>
+<div class="item"><span class="tag high">Harmony</span><span class="db">-10 dB</span></div>
+<div class="item"><span class="tag low">Band</span><span class="db">-20 dB</span></div>
 </div>
 
 </div>
+
+<!-- ================= EQ / COMP ================= -->
+<div class="tab-content">
+
+<div class="section"><h2>Drums</h2>
+<div class="item"><span class="tag high">HPF</span><span class="db">40 Hz</span></div>
+<div class="item"><span class="tag med">Comp</span><span class="db">4:1</span></div>
+</div>
+
+<div class="section"><h2>Bass</h2>
+<div class="item"><span class="tag high">HPF</span><span class="db">50 Hz</span></div>
+<div class="item"><span class="tag med">Comp</span><span class="db">4:1</span></div>
+</div>
+
+<div class="section"><h2>Acoustic Guitar</h2>
+<div class="item"><span class="tag high">HPF</span><span class="db">100 Hz</span></div>
+<div class="item"><span class="tag med">Comp</span><span class="db">3:1</span></div>
+</div>
+
+<div class="section"><h2>Lead Guitar</h2>
+<div class="item"><span class="tag high">HPF</span><span class="db">90 Hz</span></div>
+<div class="item"><span class="tag med">Comp</span><span class="db">2:1</span></div>
+</div>
+
+<div class="section"><h2>Keys</h2>
+<div class="item"><span class="tag high">HPF</span><span class="db">80 Hz</span></div>
+<div class="item"><span class="tag low">Comp</span><span class="db">2:1</span></div>
+</div>
+
+<div class="section"><h2>Vocals</h2>
+<div class="item"><span class="tag high">HPF</span><span class="db">120 Hz</span></div>
+<div class="item"><span class="tag med">Comp</span><span class="db">3:1</span></div>
+</div>
+
 </div>
 
 <script>
 /* Tabs */
-function showTab(id){
- document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'))
- event.target.classList.add('active')
- document.getElementById('checklist').classList.add('hidden')
- document.getElementById('mixes').classList.add('hidden')
- document.getElementById(id).classList.remove('hidden')
+function openTab(i){
+  document.querySelectorAll('.tab,.tab-content').forEach((el,idx)=>{
+    el.classList.toggle('active',idx===i||idx===i+3)
+  })
 }
 
-/* Checklist toggle */
+/* Checklist */
 document.querySelectorAll('.item').forEach((item,i)=>{
- if(localStorage['item'+i]==='1') item.classList.add('checked')
- item.onclick=()=>{
-   item.classList.toggle('checked')
-   localStorage['item'+i]=item.classList.contains('checked')?'1':''
- }
+  if(localStorage['i'+i]=='1') item.classList.add('checked')
+  item.onclick=()=>{
+    item.classList.toggle('checked')
+    localStorage['i'+i]=item.classList.contains('checked')?'1':''
+  }
 })
 
 /* Theme */
-function toggleDark(){
- document.body.classList.toggle('dark')
- localStorage.dark=document.body.classList.contains('dark')
+function toggleTheme(){
+  document.body.classList.toggle('dark')
+  localStorage.theme=document.body.classList.contains('dark')
 }
-if(localStorage.dark==='true')document.body.classList.add('dark')
+if(localStorage.theme=='true') document.body.classList.add('dark')
 
 /* Reset */
 function resetAll(){
- if(confirm('Reset all checklists?')){
-  document.querySelectorAll('.item').forEach((i,x)=>{
-    i.classList.remove('checked')
-    localStorage.removeItem('item'+x)
-  })
- }
+  if(confirm('Reset everything?')){
+    localStorage.clear(); location.reload()
+  }
 }
 </script>
 
