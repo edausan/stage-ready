@@ -6,27 +6,69 @@
 <title>StageReady</title>
 
 <style>
+:root {
+  --bg: #f4f4f4;
+  --card: #ffffff;
+  --text: #000;
+  --muted: #666;
+  --border: #ddd;
+}
+
+body.dark {
+  --bg: #121212;
+  --card: #1e1e1e;
+  --text: #eaeaea;
+  --muted: #aaa;
+  --border: #333;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-  background: #f4f4f4;
+  background: var(--bg);
+  color: var(--text);
   margin: 0;
   padding: 14px;
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .subtitle {
   text-align: center;
   font-size: 13px;
-  color: #666;
-  margin-bottom: 14px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.top-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+button {
+  flex: 1;
+  padding: 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.primary {
+  background: #c62828;
+  color: white;
+}
+
+.secondary {
+  background: #555;
+  color: white;
 }
 
 .section {
-  background: #ffffff;
+  background: var(--card);
   border-radius: 10px;
   margin-bottom: 14px;
   padding: 10px;
@@ -35,7 +77,7 @@ h1 {
 .section h2 {
   font-size: 15px;
   margin: 6px 0 8px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border);
   padding-bottom: 4px;
 }
 
@@ -45,7 +87,7 @@ h1 {
   align-items: center;
   padding: 11px 8px;
   font-size: 14px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border);
   cursor: pointer;
 }
 
@@ -54,7 +96,7 @@ h1 {
 }
 
 .item.checked {
-  color: #888;
+  color: var(--muted);
   text-decoration: line-through;
 }
 
@@ -79,7 +121,7 @@ h1 {
 
 .db {
   font-size: 11px;
-  color: #555;
+  color: var(--muted);
   margin-right: 6px;
 }
 
@@ -103,17 +145,6 @@ h1 {
 .collapsible-content {
   display: none;
 }
-
-button {
-  width: 100%;
-  padding: 14px;
-  font-size: 16px;
-  background: #c62828;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  margin-top: 10px;
-}
 </style>
 </head>
 
@@ -121,6 +152,11 @@ button {
 
 <h1>🎚️ StageReady</h1>
 <div class="subtitle">Rehearsal & Worship Service Checklist</div>
+
+<div class="top-bar">
+<button class="secondary" onclick="toggleDark()">🌙 Dark Mode</button>
+<button class="primary" onclick="resetChecklist()">🔄 Reset Checklist</button>
+</div>
 
 <!-- PRE-POWER -->
 <div class="section">
@@ -153,40 +189,40 @@ button {
 <div class="collapsible-content" id="iemContent">
 
 <h2>AUX IEM – DRUMS</h2>
-<div class="item">Click <span class="hint very-high">VERY HIGH</span><span class="db">≈ –5 dB</span><span class="check">✔</span></div>
-<div class="item">Lead vocal <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
-<div class="item">Bass <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
-<div class="item">Other instruments <span class="hint low">LOW</span><span class="db">≈ –20 dB</span><span class="check">✔</span></div>
+<div class="item">Click <span class="hint very-high">VERY HIGH</span><span class="db">≈ −5 dB</span><span class="check">✔</span></div>
+<div class="item">Lead vocal <span class="hint high">HIGH</span><span class="db">≈ −10 dB</span><span class="check">✔</span></div>
+<div class="item">Bass <span class="hint high">HIGH</span><span class="db">≈ −10 dB</span><span class="check">✔</span></div>
+<div class="item">Other instruments <span class="hint low">LOW</span><span class="db">≈ −20 dB</span><span class="check">✔</span></div>
 
 <h2>AUX IEM – BASS</h2>
-<div class="item">Own bass <span class="hint very-high">VERY HIGH</span><span class="db">≈ –5 dB</span><span class="check">✔</span></div>
-<div class="item">Kick / drums <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
-<div class="item">Lead vocal <span class="hint med">MED</span><span class="db">≈ –15 dB</span><span class="check">✔</span></div>
+<div class="item">Own bass <span class="hint very-high">VERY HIGH</span><span class="db">≈ −5 dB</span><span class="check">✔</span></div>
+<div class="item">Kick / drums <span class="hint high">HIGH</span><span class="db">≈ −10 dB</span><span class="check">✔</span></div>
+<div class="item">Lead vocal <span class="hint med">MED</span><span class="db">≈ −15 dB</span><span class="check">✔</span></div>
 
 <h2>AUX IEM – E-GTR 1</h2>
-<div class="item">Own guitar <span class="hint very-high">VERY HIGH</span><span class="db">≈ –5 dB</span><span class="check">✔</span></div>
-<div class="item">Lead vocal <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
-<div class="item">Rhythm section <span class="hint med">MED</span><span class="db">≈ –15 dB</span><span class="check">✔</span></div>
+<div class="item">Own guitar <span class="hint very-high">VERY HIGH</span><span class="db">≈ −5 dB</span><span class="check">✔</span></div>
+<div class="item">Lead vocal <span class="hint high">HIGH</span><span class="db">≈ −10 dB</span><span class="check">✔</span></div>
+<div class="item">Rhythm section <span class="hint med">MED</span><span class="db">≈ −15 dB</span><span class="check">✔</span></div>
 
 <h2>AUX IEM – E-GTR 2</h2>
-<div class="item">Own guitar <span class="hint very-high">VERY HIGH</span><span class="db">≈ –5 dB</span><span class="check">✔</span></div>
-<div class="item">Lead vocal <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
-<div class="item">Band balance <span class="hint med">MED</span><span class="db">≈ –15 dB</span><span class="check">✔</span></div>
+<div class="item">Own guitar <span class="hint very-high">VERY HIGH</span><span class="db">≈ −5 dB</span><span class="check">✔</span></div>
+<div class="item">Lead vocal <span class="hint high">HIGH</span><span class="db">≈ −10 dB</span><span class="check">✔</span></div>
+<div class="item">Band balance <span class="hint med">MED</span><span class="db">≈ −15 dB</span><span class="check">✔</span></div>
 
 <h2>AUX IEM – ACOUSTIC</h2>
-<div class="item">Acoustic guitar <span class="hint very-high">VERY HIGH</span><span class="db">≈ –5 dB</span><span class="check">✔</span></div>
-<div class="item">Lead vocal <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
-<div class="item">Band support <span class="hint low">LOW</span><span class="db">≈ –20 dB</span><span class="check">✔</span></div>
+<div class="item">Acoustic guitar <span class="hint very-high">VERY HIGH</span><span class="db">≈ −5 dB</span><span class="check">✔</span></div>
+<div class="item">Lead vocal <span class="hint high">HIGH</span><span class="db">≈ −10 dB</span><span class="check">✔</span></div>
+<div class="item">Band support <span class="hint low">LOW</span><span class="db">≈ −20 dB</span><span class="check">✔</span></div>
 
 <h2>AUX IEM – KEYS</h2>
-<div class="item">Keys <span class="hint very-high">VERY HIGH</span><span class="db">≈ –5 dB</span><span class="check">✔</span></div>
-<div class="item">Lead vocal <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
-<div class="item">Rhythm section <span class="hint med">MED</span><span class="db">≈ –15 dB</span><span class="check">✔</span></div>
+<div class="item">Keys <span class="hint very-high">VERY HIGH</span><span class="db">≈ −5 dB</span><span class="check">✔</span></div>
+<div class="item">Lead vocal <span class="hint high">HIGH</span><span class="db">≈ −10 dB</span><span class="check">✔</span></div>
+<div class="item">Rhythm section <span class="hint med">MED</span><span class="db">≈ −15 dB</span><span class="check">✔</span></div>
 
 <h2>AUX IEM – VOCALS</h2>
-<div class="item">Own vocal <span class="hint very-high">VERY HIGH</span><span class="db">≈ –5 dB</span><span class="check">✔</span></div>
-<div class="item">Harmony vocals <span class="hint high">HIGH</span><span class="db">≈ –10 dB</span><span class="check">✔</span></div>
-<div class="item">Band underneath <span class="hint low">LOW</span><span class="db">≈ –20 dB</span><span class="check">✔</span></div>
+<div class="item">Own vocal <span class="hint very-high">VERY HIGH</span><span class="db">≈ −5 dB</span><span class="check">✔</span></div>
+<div class="item">Harmony vocals <span class="hint high">HIGH</span><span class="db">≈ −10 dB</span><span class="check">✔</span></div>
+<div class="item">Band underneath <span class="hint low">LOW</span><span class="db">≈ −20 dB</span><span class="check">✔</span></div>
 
 </div>
 </div>
@@ -210,11 +246,10 @@ button {
 <div class="item">Scene / snapshot saved <span class="check">✔</span></div>
 </div>
 
-<button onclick="resetChecklist()">Reset Checklist</button>
-
 <script>
 const items = document.querySelectorAll(".item");
 
+/* restore checklist */
 items.forEach((item, index) => {
   if (localStorage.getItem("item" + index) === "true") {
     item.classList.add("checked");
@@ -224,6 +259,15 @@ items.forEach((item, index) => {
     localStorage.setItem("item" + index, item.classList.contains("checked"));
   });
 });
+
+/* dark mode */
+function toggleDark() {
+  document.body.classList.toggle("dark");
+  localStorage.setItem("dark", document.body.classList.contains("dark"));
+}
+if (localStorage.getItem("dark") === "true") {
+  document.body.classList.add("dark");
+}
 
 /* IEM collapse */
 const iemContent = document.getElementById("iemContent");
@@ -235,12 +279,12 @@ function toggleIEM() {
   iemArrow.textContent = open ? "▶" : "▼";
   localStorage.setItem("iemOpen", !open);
 }
-
 if (localStorage.getItem("iemOpen") === "true") {
   iemContent.style.display = "block";
   iemArrow.textContent = "▼";
 }
 
+/* reset */
 function resetChecklist() {
   if (confirm("Reset entire checklist?")) {
     items.forEach((item, index) => {
