@@ -2,305 +2,286 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>StageReady</title>
+
+<!-- PWA -->
+<link rel="manifest" href="data:application/json,{
+  &quot;name&quot;:&quot;StageReady&quot;,
+  &quot;short_name&quot;:&quot;StageReady&quot;,
+  &quot;start_url&quot;:&quot;.&quot;,
+  &quot;display&quot;:&quot;standalone&quot;,
+  &quot;background_color&quot;:&quot;#121212&quot;,
+  &quot;theme_color&quot;:&quot;#c62828&quot;
+}">
+<meta name="theme-color" content="#c62828">
 
 <style>
 :root {
-  --bg:#0f1115;
-  --card:#1a1d24;
-  --text:#fff;
-  --muted:#aaa;
-  --eq:#4da3ff;
-  --comp:#4dff88;
-  --note:#ffd24d;
-  --accent:#4da3ff;
-}
-
-body.light {
   --bg:#f4f4f4;
-  --card:#ffffff;
-  --text:#111;
-  --muted:#555;
+  --card:#fff;
+  --text:#000;
+  --muted:#666;
+  --border:#ddd;
+  --accent:#c62828;
+}
+body.dark {
+  --bg:#121212;
+  --card:#1e1e1e;
+  --text:#eaeaea;
+  --muted:#aaa;
+  --border:#333;
 }
 
 body {
   margin:0;
-  font-family:system-ui, sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
+  padding:14px;
+}
+
+h1 {
+  text-align:center;
+  margin:6px 0 2px;
+}
+.subtitle {
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:10px;
 }
 
 /* TOP BAR */
-header {
+.top-bar {
   display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px 12px;
+  gap:10px;
+  margin-bottom:12px;
 }
-
-header h1 {
-  margin:0;
-  font-size:20px;
-}
-
-.top-actions button {
-  padding:6px 10px;
-  margin-left:6px;
+.icon-btn {
+  flex:1;
   border:none;
-  border-radius:6px;
-  cursor:pointer;
+  border-radius:10px;
+  padding:12px;
+  font-size:18px;
+  background:var(--card);
+  color:var(--text);
+  border:1px solid var(--border);
 }
 
 /* TABS */
 .tabs {
   display:flex;
-  overflow-x:auto;
-  border-bottom:1px solid var(--muted);
+  margin-bottom:12px;
 }
-
 .tab {
-  padding:12px 16px;
-  cursor:pointer;
-  white-space:nowrap;
+  flex:1;
+  padding:10px;
+  text-align:center;
+  border-bottom:2px solid transparent;
+  font-size:14px;
 }
-
 .tab.active {
-  border-bottom:3px solid var(--accent);
+  border-bottom:2px solid var(--accent);
+  color:var(--accent);
 }
 
 /* SECTIONS */
 .section {
-  display:none;
-  padding:12px;
-}
-
-.section.active {
-  display:block;
-}
-
-/* CARDS */
-.card {
   background:var(--card);
+  border-radius:12px;
+  padding:10px;
+  margin-bottom:14px;
+}
+.section h2 {
+  font-size:14px;
+  border-bottom:1px solid var(--border);
+  padding-bottom:4px;
+}
+
+/* ITEMS */
+.item {
+  padding:10px 6px;
+  border-bottom:1px solid var(--border);
+  cursor:pointer;
+}
+.item:last-child { border-bottom:none; }
+.item.checked {
+  text-decoration:line-through;
+  color:var(--muted);
+}
+
+/* PRESET CARDS */
+.preset {
+  padding:10px;
+  border:1px solid var(--border);
   border-radius:10px;
-  margin-bottom:12px;
-  overflow:hidden;
+  margin-bottom:10px;
+  font-size:13px;
 }
+.preset strong { display:block; margin-bottom:4px; }
 
-.card h3 {
-  margin:0;
-  padding:14px;
-  cursor:pointer;
-}
-
-.card-content {
-  display:none;
-  padding:12px;
-}
-
-/* CHECKLIST */
-label {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:6px 0;
-  cursor:pointer;
-}
-
-input[type="checkbox"] {
-  transform:scale(1.2);
-}
-
-/* MIX COLORS */
-.eq h4 { color:var(--eq); }
-.comp h4 { color:var(--comp); }
-.note h4 { color:var(--note); }
-
-ul {
-  padding-left:18px;
-}
+/* HIDE */
+.hidden { display:none; }
 </style>
 </head>
 
 <body>
 
-<!-- 🔝 TOP BAR -->
-<header>
-  <h1>🎛 StageReady</h1>
-  <div class="top-actions">
-    <button id="themeBtn" onclick="toggleTheme()">🌙</button>
-    <button onclick="resetChecks()">♻️ Reset</button>
-  </div>
-</header>
+<h1>🎚️ StageReady</h1>
+<div class="subtitle">Rehearsal & Worship Service Toolkit</div>
 
-<!-- 🔖 TABS -->
+<!-- TOP BAR -->
+<div class="top-bar">
+  <button class="icon-btn" onclick="toggleDark()">🌓</button>
+  <button class="icon-btn" onclick="resetChecklist()">↺</button>
+</div>
+
+<!-- TABS -->
 <div class="tabs">
-  <div class="tab active" onclick="openTab(0)">Checklist</div>
-  <div class="tab" onclick="openTab(1)">IEM / Aux</div>
-  <div class="tab" onclick="openTab(2)">Recording</div>
-  <div class="tab" onclick="openTab(3)">🎚 Instrument Mixes</div>
+  <div class="tab active" onclick="showTab('checklist')">Checklist</div>
+  <div class="tab" onclick="showTab('iem')">IEM Mixes</div>
+  <div class="tab" onclick="showTab('presets')">EQ / Comp</div>
 </div>
 
-<!-- ================= CHECKLIST ================= -->
-<div class="section active">
+<!-- CHECKLIST TAB -->
+<div id="checklist">
 
-<div class="card">
-<h3 onclick="toggle(this)">🔌 Stage Setup</h3>
-<div class="card-content">
-<label><input type="checkbox"> Power on mixer & stage box</label>
-<label><input type="checkbox"> Check power & extensions</label>
-<label><input type="checkbox"> FOH + IEM outputs connected</label>
-<label><input type="checkbox"> Control app connected</label>
-</div>
-</div>
-
-<div class="card">
-<h3 onclick="toggle(this)">🎤 Inputs</h3>
-<div class="card-content">
-<label><input type="checkbox"> Drums</label>
-<label><input type="checkbox"> Bass</label>
-<label><input type="checkbox"> Electric Guitars</label>
-<label><input type="checkbox"> Acoustic Guitar</label>
-<label><input type="checkbox"> Keys</label>
-<label><input type="checkbox"> Main Vocal</label>
-<label><input type="checkbox"> Backup Vocals</label>
-</div>
-</div>
-
-</div>
-
-<!-- ================= IEM / AUX ================= -->
 <div class="section">
-
-<div class="card">
-<h3 onclick="toggle(this)">🥁 Drums IEM</h3>
-<div class="card-content">
-<label><input type="checkbox"> Click (-6 to -3 dB)</label>
-<label><input type="checkbox"> Lead Vox (-6 dB)</label>
-<label><input type="checkbox"> Bass (-8 dB)</label>
-<label><input type="checkbox"> Other instruments (-10 dB)</label>
-</div>
+<h2>Pre-Power</h2>
+<div class="item">SZ-12 faders down</div>
+<div class="item">AUX masters down</div>
+<div class="item">Wireless IEM packs off</div>
+<div class="item">Speakers off</div>
 </div>
 
-<div class="card">
-<h3 onclick="toggle(this)">🎸 Bass IEM</h3>
-<div class="card-content">
-<label><input type="checkbox"> Self (-3 dB)</label>
-<label><input type="checkbox"> Kick (-6 dB)</label>
-<label><input type="checkbox"> Lead Vox (-6 dB)</label>
-</div>
-</div>
-
-<div class="card">
-<h3 onclick="toggle(this)">🎤 Vocal IEM</h3>
-<div class="card-content">
-<label><input type="checkbox"> Self (-3 dB)</label>
-<label><input type="checkbox"> Keys (-8 dB)</label>
-<label><input type="checkbox"> Guitars (-10 dB)</label>
-</div>
-</div>
-
-</div>
-
-<!-- ================= RECORDING ================= -->
 <div class="section">
-
-<div class="card">
-<h3 onclick="toggle(this)">🎙 Multitrack Recording</h3>
-<div class="card-content">
-<label><input type="checkbox"> Drums</label>
-<label><input type="checkbox"> Bass</label>
-<label><input type="checkbox"> Guitars</label>
-<label><input type="checkbox"> Keys</label>
-<label><input type="checkbox"> Main Vocal</label>
-<label><input type="checkbox"> Backup Vocal</label>
-<label><input type="checkbox"> Test record & playback</label>
-</div>
+<h2>Power-Up</h2>
+<div class="item">Interface on</div>
+<div class="item">Mixer on</div>
+<div class="item">IEM transmitters on</div>
+<div class="item">PA on</div>
 </div>
 
-</div>
-
-<!-- ================= INSTRUMENT MIXES ================= -->
 <div class="section">
-
-<div class="card">
-<h3 onclick="toggle(this)">🎸 Bass</h3>
-<div class="card-content">
-<div class="eq">
-<h4>EQ</h4>
-<ul>
-<li>HPF: 40–50 Hz</li>
-<li>+3 dB @ 80–120 Hz</li>
-<li>−4 dB @ 250–350 Hz</li>
-<li>+2 dB @ 700 Hz–1 kHz</li>
-</ul>
-</div>
-<div class="comp">
-<h4>Compressor</h4>
-<ul>
-<li>Ratio: 4–6:1</li>
-<li>Attack: 20–40 ms</li>
-<li>Release: 100–200 ms</li>
-<li>GR: 5–8 dB</li>
-</ul>
-</div>
-</div>
-</div>
-
-<div class="card">
-<h3 onclick="toggle(this)">🎤 Vocals</h3>
-<div class="card-content">
-<div class="eq">
-<h4>EQ</h4>
-<ul>
-<li>HPF: 100–120 Hz</li>
-<li>−4 dB @ 250–350 Hz</li>
-<li>+3 dB @ 4–6 kHz</li>
-<li>+2 dB @ 10–12 kHz</li>
-</ul>
-</div>
-<div class="comp">
-<h4>Compressor</h4>
-<ul>
-<li>Ratio: 3:1</li>
-<li>Attack: 5–10 ms</li>
-<li>Release: 60–100 ms</li>
-<li>GR: 4–6 dB</li>
-</ul>
-</div>
-</div>
+<h2>Multitrack</h2>
+<div class="item">Drums recording</div>
+<div class="item">Bass recording</div>
+<div class="item">Guitars recording</div>
+<div class="item">Keys recording</div>
+<div class="item">Vocals recording</div>
 </div>
 
 </div>
 
-<!-- ================= SCRIPT ================= -->
+<!-- IEM TAB -->
+<div id="iem" class="hidden">
+
+<div class="section">
+<h2>Drums IEM</h2>
+<div class="preset">Click: Very High</div>
+<div class="preset">Bass: High</div>
+<div class="preset">Lead Vocal: High</div>
+</div>
+
+<div class="section">
+<h2>Bass IEM</h2>
+<div class="preset">Own Bass: Very High</div>
+<div class="preset">Kick: High</div>
+<div class="preset">Vocal: Medium</div>
+</div>
+
+<div class="section">
+<h2>Guitar IEM</h2>
+<div class="preset">Own Guitar: Very High</div>
+<div class="preset">Lead Vocal: High</div>
+<div class="preset">Band: Medium</div>
+</div>
+
+<div class="section">
+<h2>Keys IEM</h2>
+<div class="preset">Keys: Very High</div>
+<div class="preset">Vocal: High</div>
+<div class="preset">Rhythm: Medium</div>
+</div>
+
+<div class="section">
+<h2>Vocal IEM</h2>
+<div class="preset">Own Vocal: Very High</div>
+<div class="preset">Band: Low</div>
+</div>
+
+</div>
+
+<!-- PRESETS TAB -->
+<div id="presets" class="hidden">
+
+<div class="section">
+<h2>Drums</h2>
+<div class="preset"><strong>EQ</strong>HPF 40Hz · Cut 400Hz · Boost 5kHz</div>
+<div class="preset"><strong>Comp</strong>4:1 · Fast attack · GR 4–6dB</div>
+</div>
+
+<div class="section">
+<h2>Bass</h2>
+<div class="preset"><strong>EQ</strong>HPF 50Hz · Boost 80Hz · Cut 250Hz</div>
+<div class="preset"><strong>Comp</strong>5:1 · Medium attack · GR 6dB</div>
+</div>
+
+<div class="section">
+<h2>Electric Guitar</h2>
+<div class="preset"><strong>EQ</strong>HPF 90Hz · Cut 3kHz harsh</div>
+<div class="preset"><strong>Comp</strong>3:1 · Light</div>
+</div>
+
+<div class="section">
+<h2>Keys</h2>
+<div class="preset"><strong>EQ</strong>HPF 100Hz · Scoop 300Hz</div>
+<div class="preset"><strong>Comp</strong>2:1 · Gentle</div>
+</div>
+
+<div class="section">
+<h2>Vocals</h2>
+<div class="preset"><strong>EQ</strong>HPF 120Hz · Boost 5kHz · Air 12kHz</div>
+<div class="preset"><strong>Comp</strong>3–4:1 · GR 5dB</div>
+</div>
+
+</div>
+
 <script>
-function openTab(i){
-  document.querySelectorAll('.tab').forEach((t,x)=>t.classList.toggle('active',x===i));
-  document.querySelectorAll('.section').forEach((s,x)=>s.classList.toggle('active',x===i));
+/* checklist toggle */
+document.querySelectorAll(".item").forEach((item,i)=>{
+  if(localStorage.getItem("i"+i)==="1") item.classList.add("checked");
+  item.onclick=()=>{
+    item.classList.toggle("checked");
+    localStorage.setItem("i"+i,item.classList.contains("checked")?"1":"0");
+  }
+});
+
+/* tabs */
+function showTab(id){
+  document.querySelectorAll("#checklist,#iem,#presets").forEach(t=>t.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  event.target.classList.add("active");
 }
 
-function toggle(el){
-  const c = el.nextElementSibling;
-  c.style.display = c.style.display === "block" ? "none" : "block";
+/* theme */
+function toggleDark(){
+  document.body.classList.toggle("dark");
+  localStorage.setItem("dark",document.body.classList.contains("dark"));
 }
+if(localStorage.getItem("dark")==="true") document.body.classList.add("dark");
 
-function toggleTheme(){
-  document.body.classList.toggle('light');
-  updateThemeIcon();
+/* reset */
+function resetChecklist(){
+  if(confirm("Reset all checklist items?")){
+    document.querySelectorAll(".item").forEach((item,i)=>{
+      item.classList.remove("checked");
+      localStorage.removeItem("i"+i);
+    });
+  }
 }
-
-function updateThemeIcon(){
-  const btn = document.getElementById('themeBtn');
-  btn.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
-}
-
-function resetChecks(){
-  document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
-}
-
-// Set correct icon on load
-updateThemeIcon();
 </script>
 
 </body>
